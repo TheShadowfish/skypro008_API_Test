@@ -1,9 +1,12 @@
 import json
 import os
 from datetime import datetime
+#from decouple import config
+from dotenv import load_dotenv
 
 from googleapiclient.discovery import build
 
+load_dotenv()
 SEARCH_RESULTS_FILE = "search_results.json"
 YT_API_KEY = os.getenv('YT_API_KEY')
 RESULTS_COUNT = 10
@@ -97,6 +100,9 @@ def print_options() -> None:
 
 
 def main() -> None:
+    load_dotenv()
+    YT_API_KEY = os.getenv('YT_API_KEY')
+
     while True:
         query = input("Введите поисковый запрос: ")
         videos = get_search_results(query)

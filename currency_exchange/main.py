@@ -1,9 +1,11 @@
 import json
 import os
 from datetime import datetime
+from dotenv import load_dotenv
 
 import requests
 
+load_dotenv()
 CURRENCY_RATES_FILE = "currency_rates.json"
 API_KEY = os.getenv('EXCHANGE_RATE_API_KEY')
 
@@ -11,10 +13,13 @@ API_KEY = os.getenv('EXCHANGE_RATE_API_KEY')
 def get_currency_rate(currency: str) -> float:
     """Получает курс валюты от API и возвращает его в виде float"""
 
-    url = f"https://api.apilayer.com/exchangerates_data/latest?base={currency}"
+    #url_old = f"https://api.apilayer.com/exchangerates_data/latest?base={currency}"
+
+    url = f"https://api.apilayer.com/currency_data/live?source={currency}" # + "&currencies=" + currencies
     response = requests.get(url, headers={'apikey': API_KEY})
     response_data = json.loads(response.text)
-    rate = response_data["rates"]["RUB"]
+    print(f"response_data= {response_data}")
+    rate = response_data["quotes"][currency+"RUB"]
     return rate
 
 
